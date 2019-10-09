@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: csvreader
+  namespace: csvreader
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: csvreader
+  template:
+    metadata:
+      labels:
+        app: csvreader
+    spec:
+      containers:
+      - name: csvreader
+        image: nomansadiq11/ubuntu-nginx-nodejs:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80

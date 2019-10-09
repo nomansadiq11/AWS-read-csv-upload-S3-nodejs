@@ -4,7 +4,7 @@ metadata:
   name: csvreader
   namespace: csvreader
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: csvreader
@@ -19,3 +19,21 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 80
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: deployment-csvreader
+  namespace: csvreader
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1beta1
+    kind: Deployment
+    name: deployment-csvreader
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      targetAverageUtilization: 2

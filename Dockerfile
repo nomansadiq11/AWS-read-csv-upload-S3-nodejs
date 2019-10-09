@@ -22,8 +22,11 @@ RUN apt-get update && apt-get upgrade -y
 #
 # Install NGINX to test.
 RUN apt-get install nginx -y
- 
-#
+
+RUN apt-get install curl -y
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN apt-get install nodejs -y
+
 # Expose port 80
 EXPOSE 80
  

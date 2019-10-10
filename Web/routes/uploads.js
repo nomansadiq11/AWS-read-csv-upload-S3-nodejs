@@ -28,7 +28,7 @@ var upload = multer({ storage: storage })
 
 
 router.get('/',function(req,res) {
-        res.render("uploadPage", {title: "I love files!"});
+        res.render("uploadPage", {title: "Csv Reader"});
     });
 
 
@@ -51,10 +51,13 @@ router.post('/upload', upload.single('myFile'), (req, res, next) => {
             {
                 const jsonobj = csvjson.toObject(filecontent); 
                 console.log(jsonobj); 
+                res.render("uploadedfile", {result: jsonobj});
             }
         }); 
 
-        res.redirect("/uploads")
+        
+
+        // res.redirect("/uploads")
 
 
         // res.send(file)

@@ -1,19 +1,61 @@
 
 
 
-const lineReader = require('line-reader');
+const fs = require('fs');
+
+try {
+    // read contents of the file
+    const data = fs.readFileSync('./uploads/soh.csv', 'UTF-8');
+
+    // split the contents by new line
+    const lines = data.split(/\r?\n/);
+
+    // print all lines
+    lines.forEach((line) => {
+        console.log(line);
+    });
+} catch (err) {
+    console.error(err);
+}
 
 
-var data = []
+// const lineReader = require('line-reader');
 
-lineReader.eachLine("./uploads/soh.csv", function(line) {
-    data.push(line); 
-    console.log(line);
+
+// var data = []
+
+
+// var eachLine = function(filename, options, iteratee) {
+//     return new Promise(function(resolve, reject) {
+//       lineReader.eachLine(filename, options, iteratee, function(err) {
+//         if (err) {
+//           reject(err);
+//         } else {
+//             console.log("resolver"); 
+//           resolve();
+//         }
+//       });
+//     });
+//   }
+
+//   eachLine('./uploads/soh.csv', function(line) {
+//     console.log("asdfa" + line);
+//   }).then(function() {
+//     console.log('done');
+//   }).catch(function(err) {
+//     console.error(err);
+//   });
+
+
+
+// lineReader.eachLine("./uploads/soh.csv", function(line) {
+//     data.push(line); 
+//     console.log(line);
     
-});
+// });
 
 
-console.log(data); 
+// console.log(data); 
 
 
 // var fs = require("fs");

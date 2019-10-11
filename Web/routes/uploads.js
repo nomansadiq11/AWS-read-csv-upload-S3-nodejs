@@ -22,12 +22,8 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage })
 
 
-// app.use(multer({
-//     dest:"./uploads/"
-//   }).single());
 
-
-var data = []
+var filedata = []
 
 
 
@@ -46,11 +42,23 @@ router.post('/upload', upload.single('myFile'), (req, res, next) => {
     else
     {
         data = []; 
-        lineReader.eachLine(req.file.path, function(line) {
+        console.log("file path" + req.file.path); 
+
+
+        lineReader.eachLine(req.file.path, function(line, IsLastLine) {
+
+            
+            console.log(line); 
             data.push(line); 
+
+            if(IsLastLine)
+            {
+                res.render("uploadedfile", {result:  data});
+            }
+
+            
         });
 
-        res.render("uploadedfile", {result:  data});
 
     }
         

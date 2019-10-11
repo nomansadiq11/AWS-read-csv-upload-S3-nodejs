@@ -6,6 +6,8 @@ var fs = require("fs");
 var multer = require('multer');
 var csvjson = require('csvjson'); 
 const readFile = require('fs').readFile;
+var csv = require('node-csv'); 
+const lineReader = require('line-reader');
 
 var storage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -25,6 +27,8 @@ var upload = multer({ storage: storage })
 //   }).single());
 
 
+var data = []
+
 
 
 router.get('/',function(req,res) {
@@ -41,27 +45,12 @@ router.post('/upload', upload.single('myFile'), (req, res, next) => {
     }
     else
     {
-        readFile(req.file.path, 'utf-8', (err, filecontent)=> {
-            if(err)
-            {
-                console.log(err); 
-                throw new Error(err); 
-            }
-            else
-            {
-                const jsonobj = csvjson.toObject(filecontent); 
-                console.log(jsonobj); 
-                res.render("uploadedfile", {result: jsonobj});
-            }
-        }); 
+        data = []; 
+        lineReader.eachLine(req.file.path, function(line) {
+            data.push(line); 
+        });
 
-        
-
-        // res.redirect("/uploads")
-
-
-        // res.send(file)
-
+        res.render("uploadedfile", {result:  data});
 
     }
         
@@ -69,40 +58,5 @@ router.post('/upload', upload.single('myFile'), (req, res, next) => {
     }); 
 
   
-
-
-// router.post("/upload", upload.single('myFile'), function(req,res,next) {
-//     console.log("rece request");
-//     if(req.file === undefined)
-//     {
-//         console.log("request files are undefined"); 
-//     }
-//     else
-//     {
-//         res.end("Got your file!");
-//         console.log("it has file"); 
-//     }
-
-//     // console.log(req.file);
-//     // // console.log(res);
-//     // // console.log(next);
-//     // debugger; 
-//     //     if (req.file) {
-//     //         console.log("has file");
-//     //         console.log(util.inspect(req.file));
-//     //         // if (req.file.myFile.size === 0) {
-//     //         //     returnnext(newError("Hey, first would you select a file?"));
-//     //         // }
-//     //         fs.exists(req.file.myFile.path,function(exists) {
-//     //             console.log("file exists");
-//     //                 if (exists) {
-//     //                     res.end("Got your file!");
-//     //                 } else {
-//     //                     res.end("Well, there is no magic for those who don’t believe in it!");
-//     //                 }
-//     //             });
-//     //     }
-//     });
-
 
 module.exports = router;

@@ -61,3 +61,6 @@ typings/
 .next
 
 /Web/uploads
+/Terraform-AWS/.terraform
+/Terraform-AWS/terraform.tfstate
+/Terraform-AWS/terraform.tfstate.backup

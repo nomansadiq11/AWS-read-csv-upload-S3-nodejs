@@ -1,88 +1,59 @@
 
-
-
+const AWS = require('aws-sdk');
 const fs = require('fs');
+const path = require('path');
+const config = require('./config.json'); 
 
-try {
-    // read contents of the file
-    const data = fs.readFileSync('./uploads/soh.csv', 'UTF-8');
+//configuring the AWS environment
+AWS.config.update({
+    accessKeyId: config.AWS_AccessKey,
+    secretAccessKey: config.AWS_SecretKey
+  });
 
-    // split the contents by new line
-    const lines = data.split(/\r?\n/);
-
-    // print all lines
-    lines.forEach((line) => {
-        console.log(line);
-    });
-} catch (err) {
-    console.error(err);
-}
+var s3 = new AWS.S3();
+var filePath = "./uploads/soh.csv";
 
 
-// const lineReader = require('line-reader');
+var params = {
+    Bucket:"readcsvfile",
+    Delimiter: '/',
+    Prefix: 'csvfiles/'
+    };
+    
+    s3.listObjects(params, function(err, data) {
+                if (err) {
+                    return 'There was an error viewing your album: ' + err.message
+                }else{
+                    console.log(data.Contents,"<<<all content");
+    
+                    data.Contents.forEach(function(obj,index){
+                        console.log(obj.Key,"<<<file path")
+                        
+                        if((data.Contents.length - 1) == index)
+                        {
+                            console.log("this is last index" + index); 
+                        }
+                    })
+                }
+            }); 
 
 
-// var data = []
 
+// //configuring parameters
+// var params = {
+//   Bucket: 'readcsvfile',
+//   Body : fs.createReadStream(filePath),
+//   Key : "csvfiles/"+Date.now()+"_"+path.basename(filePath)
+// };
 
-// var eachLine = function(filename, options, iteratee) {
-//     return new Promise(function(resolve, reject) {
-//       lineReader.eachLine(filename, options, iteratee, function(err) {
-//         if (err) {
-//           reject(err);
-//         } else {
-//             console.log("resolver"); 
-//           resolve();
-//         }
-//       });
-//     });
+// s3.upload(params, function (err, data) {
+//   //handle error
+//   if (err) {
+//     console.log("Error", err);
 //   }
 
-//   eachLine('./uploads/soh.csv', function(line) {
-//     console.log("asdfa" + line);
-//   }).then(function() {
-//     console.log('done');
-//   }).catch(function(err) {
-//     console.error(err);
-//   });
-
-
-
-// lineReader.eachLine("./uploads/soh.csv", function(line) {
-//     data.push(line); 
-//     console.log(line);
-    
+//   //success
+//   if (data) {
+//     console.log("Uploaded in:", data.Location);
+//   }
 // });
-
-
-// console.log(data); 
-
-
-// var fs = require("fs");
-
-// fs.readFile("./uploads/soh.csv", function(err, buf) {
-//   console.log(buf.toString());
-// });
-
-
-
-// var fs = require("fs");
-
-// var data = "New File Contents";
-
-// fs.writeFile("./uploads/soh.csv", data, (err) => {
-//   if (err) console.log(err);
-//   console.log("Successfully Written to File.");
-// });
-
-
-
-// const csv=require('csvtojson')
-// csv({
-// 	noheader:true,
-// 	output: "csv"
-// })
-// .fromFile("./uploads/soh.csv")
-// .then((csvRow)=>{ 
-// 	console.log(csvRow) // => [["1","2","3"], ["4","5","6"], ["7","8","9"]]
-// })

@@ -1,9 +1,11 @@
-
+const AWS = require('aws-sdk');
 var express = require('express');
 var router = express.Router();
 var util = require("util");
 var fs = require("fs");
 var multer = require('multer');
+const config = require('./../config.json'); 
+const path = require('path');
 
 const readFile = require('fs').readFile;
 
@@ -19,16 +21,55 @@ var storage = multer.diskStorage({
 });
 
 
+AWS.config.update({
+    accessKeyId: config.AWS_AccessKey,
+    secretAccessKey: config.AWS_SecretKey
+  });
+
+  var s3 = new AWS.S3();
+
+  
+
+
 var upload = multer({ storage: storage })
 
 
 
 var filedata = []
+var allfilesfromS3 = []; 
 
 
 
 router.get('/',function(req,res) {
-        res.render("uploadPage", {title: "Csv Reader"});
+    
+    
+    var params = 
+    {
+        Bucket:"readcsvfile",
+        Delimiter: '/',
+        Prefix: 'csvfiles/'
+    };
+    
+    s3.listObjects(params, function(err, data) {
+        allfilesfromS3 = []; 
+        if (err) {
+            return 'There was an error viewing your album: ' + err.message
+        }else{
+            data.Contents.forEach(function(obj,index){
+                
+                allfilesfromS3.push(obj.Key); 
+                console.log(allfilesfromS3); 
+
+                if((data.Contents.length - 1) == index)
+                {
+                    res.render("uploadPage", {title: "Csv Reader", result : allfilesfromS3});
+                }
+
+            })
+        }
+    }); 
+
+        
     });
 
 
@@ -41,6 +82,24 @@ router.post('/upload', upload.single('myFile'), (req, res, next) => {
     }
     else
     {
+        var params = {
+            Bucket: 'readcsvfile',
+            Body : fs.createReadStream(req.file.path),
+            Key : "csvfiles/"+Date.now()+"_"+path.basename(req.file.path)
+          };
+
+        s3.upload(params, function (err, data) {
+            //handle error
+            if (err) {
+              console.log("Error", err);
+            }
+          
+            //success
+            if (data) {
+              console.log("Uploaded in:", data.Location);
+            }
+        });
+
         data = []; 
         console.log("file path" + req.file.path); 
 

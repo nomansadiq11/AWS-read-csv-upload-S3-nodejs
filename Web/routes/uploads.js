@@ -43,32 +43,34 @@ var allfilesfromS3 = [];
 router.get('/',function(req,res) {
     
     
-    var params = 
-    {
-        Bucket:"readcsvfile",
-        Delimiter: '/',
-        Prefix: 'csvfiles/'
-    };
+    // var params = 
+    // {
+    //     Bucket:"readcsvfile",
+    //     Delimiter: '/',
+    //     Prefix: 'csvfiles/'
+    // };
     
-    s3.listObjects(params, function(err, data) {
-        allfilesfromS3 = []; 
-        if (err) {
-            return 'There was an error viewing your album: ' + err.message
-        }else{
-            data.Contents.forEach(function(obj,index){
+    // s3.listObjects(params, function(err, data) {
+    //     allfilesfromS3 = []; 
+    //     if (err) {
+    //         return 'There was an error viewing your album: ' + err.message
+    //     }else{
+    //         data.Contents.forEach(function(obj,index){
                 
-                allfilesfromS3.push(obj.Key); 
-                console.log(allfilesfromS3); 
+    //             allfilesfromS3.push(obj.Key); 
+    //             console.log(allfilesfromS3); 
 
-                if((data.Contents.length - 1) == index)
-                {
-                    res.render("uploadPage", {title: "Csv Reader", result : allfilesfromS3});
-                }
+    //             if((data.Contents.length - 1) == index)
+    //             {
+    //                 res.render("uploadPage", {title: "Csv Reader", result : allfilesfromS3});
+    //             }
 
-            })
-        }
-    }); 
+    //         })
+    //     }
+    // }); 
 
+
+     res.render("uploadPage", {title: "Csv Reader"});
         
     });
 

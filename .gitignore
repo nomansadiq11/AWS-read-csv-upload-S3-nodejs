@@ -64,3 +64,4 @@ typings/
 /Terraform-AWS/.terraform
 /Terraform-AWS/terraform.tfstate
 /Terraform-AWS/terraform.tfstate.backup
+/Web/config.json

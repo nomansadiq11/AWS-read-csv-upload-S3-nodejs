@@ -13,8 +13,9 @@ const readFile = require('fs').readFile;
 const lineReader = require('line-reader');
 
 var storage = multer.diskStorage({
+    
     destination: function(req, file, cb) {
-        cb(null, './uploads');
+        cb(null, './uploads/');
      },
     filename: function (req, file, cb) {
         cb(null , file.originalname);
@@ -36,12 +37,28 @@ var upload = multer({ storage: storage })
 
 
 
+
+
 var filedata = []
 var allfilesfromS3 = []; 
 
 
 
 router.get('/',function(req,res) {
+
+    var dir = "./uploads/"
+    try
+    {
+        if (!fs.existsSync(dir)){
+            fs.mkdirSync(dir)
+          }
+
+    }
+    catch(e)
+    {
+        console.error(e)
+
+    }
     
     res.render("fileupload", {title: "Csv Reader"});
         

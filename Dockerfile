@@ -27,6 +27,9 @@ COPY /default /etc/nginx/sites-enabled/
 
 WORKDIR /web/
 
+RUN npm install
+
 # ENTRYPOINT ["/Start/start.sh"]
+
 
 CMD ["/bin/bash", "-c", "/etc/init.d/nginx start & npm run start" ]

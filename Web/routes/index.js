@@ -42,7 +42,7 @@ router.get('/', function(req, res, next) {
     s3.listObjects(params, function(err, data) {
         allfilesfromS3 = []; 
         if (err) {
-            return 'There was an error viewing your album: ' + err.message
+            res.send('There was an error viewing your album: ' + err.message)
         }else{
             data.Contents.forEach(function(obj,index){
                 

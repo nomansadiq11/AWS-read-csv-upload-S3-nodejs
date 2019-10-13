@@ -60,7 +60,7 @@ typings/
 # next.js build output
 .next
 
-/Web/uploads
+/Web/uploads/
 /Terraform-AWS/.terraform
 /Terraform-AWS/terraform.tfstate
 /Terraform-AWS/terraform.tfstate.backup

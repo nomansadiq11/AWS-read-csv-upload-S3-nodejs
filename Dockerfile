@@ -19,11 +19,11 @@ EXPOSE 80
 COPY ./Web/ /web/
 
 COPY /default /etc/nginx/sites-enabled/
-COPY /start.sh /start/start.sh
+# COPY /start.sh /start/start.sh
 
 # WORKDIR /Start/
 
-RUN chmod +x /start/start.sh
+# RUN chmod +x /start/start.sh
 
 WORKDIR /web/
 

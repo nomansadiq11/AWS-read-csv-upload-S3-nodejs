@@ -4,7 +4,7 @@ metadata:
   name: csvreader
   namespace: csvreader
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: csvreader
@@ -23,7 +23,7 @@ spec:
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: deployment-csvreader
+  name: autoscalingcsvreader
   namespace: csvreader
 spec:
   scaleTargetRef:

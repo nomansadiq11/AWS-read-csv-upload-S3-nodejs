@@ -1,9 +1,9 @@
 # Read csv file and upload AWS S3 using NodeJS
 This repo use for read csv file and upload that file to AWS S3, this application will be deployed as container base application, those container will be manage by kubernates. 
 
-## Pre-requests
+## Prerequisite
 
-- Kubernates (minikube)
+- Kubernates
 - Docker
 - NodeJS
 - AWS (S3 Bucket and read Write credentials)

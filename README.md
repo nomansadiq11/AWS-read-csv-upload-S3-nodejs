@@ -3,7 +3,7 @@ This repo use for read csv file and upload that file to AWS S3, this application
 
 ## Prerequisite
 
-- Kubernates
+- Kubernetes
 - Docker
 - NodeJS
 - AWS (S3 Bucket and read Write credentials)
